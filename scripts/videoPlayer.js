@@ -8,9 +8,7 @@ export const videoPlayerInit = () => {
   const videoTimeTotal = document.querySelector('.video-time__total');
   const videoVolume = document.querySelector('.video-volume');
   const videoFullscreen = document.querySelector('.video-fullscreen');
-
-  const volumeDown = document.querySelector('.volume-down');
-  const volumeUp = document.querySelector('.volume-up');
+  const videoMute = document.querySelector('.video-mute');
 
   const toggleIcon = () => {
     if (videoPlayer.paused) {
@@ -41,6 +39,7 @@ export const videoPlayerInit = () => {
   const changeValue = () => {
     const valueVolume = videoVolume.value;
     videoPlayer.volume = valueVolume / 100;
+    videoPlayer.muted = false;
   }; // изменение громкости
 
   videoPlayer.addEventListener('click', togglePlay);
@@ -69,17 +68,21 @@ export const videoPlayerInit = () => {
     const duration = videoPlayer.duration;
     const value = videoProgress.value;
     videoPlayer.currentTime = (value * duration) / 100;
-  }) // переключение видео при изменении положения бегунка
+  }); // переключение видео при изменении положения бегунка
 
   videoVolume.addEventListener('input', changeValue);
 
   videoPlayer.addEventListener('volumechange', () => {
     videoVolume.value = Math.round(videoPlayer.volume * 100);
-  })
+  });
 
   videoFullscreen.addEventListener('click', () => {
     videoPlayer.requestFullscreen();
   }); // открытие видео на весь экран
 
   changeValue(); // вызов для установки изначального volume=50
+
+  videoMute.addEventListener('click', () => {
+    videoPlayer.muted = !videoPlayer.muted;
+  }); // отключение громкости
 }
