@@ -6,6 +6,11 @@ export const videoPlayerInit = () => {
   const videoProgress = document.querySelector('.video-progress');
   const videoTimePassed = document.querySelector('.video-time__passed');
   const videoTimeTotal = document.querySelector('.video-time__total');
+  const videoVolume = document.querySelector('.video-volume');
+  const videoFullscreen = document.querySelector('.video-fullscreen');
+
+  const volumeDown = document.querySelector('.volume-down');
+  const volumeUp = document.querySelector('.volume-up');
 
   const toggleIcon = () => {
     if (videoPlayer.paused) {
@@ -17,7 +22,8 @@ export const videoPlayerInit = () => {
     }
   } // изменение иконки кнопки play на pause и наоборот
 
-  const togglePlay = () => {
+  const togglePlay = event => {
+    event.preventDefault();
     if (videoPlayer.paused) {
       videoPlayer.play();
     } else {
@@ -31,6 +37,11 @@ export const videoPlayerInit = () => {
   } // остановка проигрывания видео и сброс его времени
 
   const addZero = n => n < 10 ? '0' + n : n; // добавление нуля для корректного отображения проигранного времени видео
+
+  const changeValue = () => {
+    const valueVolume = videoVolume.value;
+    videoPlayer.volume = valueVolume / 100;
+  }; // изменение громкости
 
   videoPlayer.addEventListener('click', togglePlay);
   videoPlayer.addEventListener('play', toggleIcon);
@@ -54,9 +65,21 @@ export const videoPlayerInit = () => {
     videoTimeTotal.textContent = `${addZero(minuteTotal)}:${addZero(secondsTotal)}`; // отображение общей продолжительности видео
   });
 
-  videoProgress.addEventListener('change', () => {
+  videoProgress.addEventListener('input', () => {
     const duration = videoPlayer.duration;
     const value = videoProgress.value;
     videoPlayer.currentTime = (value * duration) / 100;
   }) // переключение видео при изменении положения бегунка
+
+  videoVolume.addEventListener('input', changeValue);
+
+  videoPlayer.addEventListener('volumechange', () => {
+    videoVolume.value = Math.round(videoPlayer.volume * 100);
+  })
+
+  videoFullscreen.addEventListener('click', () => {
+    videoPlayer.requestFullscreen();
+  }); // открытие видео на весь экран
+
+  changeValue(); // вызов для установки изначального volume=50
 }
