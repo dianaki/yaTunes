@@ -15,10 +15,10 @@ export const radioPlayerInit = () => {
     if(audio.paused) {
       radio.classList.remove('play');
       radioStop.classList.add('fa-play');
-      radioStop.classList.remove('fa-stop');
+      radioStop.classList.remove('fa-pause');
     } else {
       radio.classList.add('play');
-      radioStop.classList.add('fa-stop');
+      radioStop.classList.add('fa-pause');
       radioStop.classList.remove('fa-play');
     }
   }; // изменение иконки play при паузе радио
