@@ -71,4 +71,9 @@ export const radioPlayerInit = () => {
   }); // отключение громкости
 
   radioVolume.value = audio.volume * 100;
-}
+
+  radioPlayerInit.stop = () => {
+    audio.pause();
+    changeIconPlay();
+  };
+};

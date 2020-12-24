@@ -85,4 +85,9 @@ export const videoPlayerInit = () => {
   videoMute.addEventListener('click', () => {
     videoPlayer.muted = !videoPlayer.muted;
   }); // отключение громкости
-}
+
+  videoPlayerInit.stop = () => {
+    videoPlayer.pause();
+    toggleIcon();
+  };
+};
